@@ -1,0 +1,31 @@
+{
+  "name": "vexquery-skill",
+  "version": "1.0.0",
+  "description": "Alexa Skill to ask Alexa for Vex related info",
+  "main": "index.js",
+  "dependencies": {
+    "alexa-sdk": "^1.0.8"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/XenonMolecule/vexquery-skill.git"
+  },
+  "keywords": [
+    "alexa",
+    "skill",
+    "vex",
+    "vexdb",
+    "amazon-alexa",
+    "voice"
+  ],
+  "author": "XenonMolecule",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/XenonMolecule/vexquery-skill/issues"
+  },
+  "homepage": "https://github.com/XenonMolecule/vexquery-skill#readme"
+}
