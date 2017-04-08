@@ -28,7 +28,7 @@ var newSessionHandlers = {
      // This will short-cut any incoming intent or launch requests and route them to this handler.
     'NewSession': function() {
         this.handler.state = states.STARTMODE;
-        this.emit(':ask', 'Ask me and vex statistics related queries.', 'Do you have any vex statistics related questions?');
+        this.emit(':ask', 'Ask me any vex statistics related queries.', 'Do you have any vex statistics related questions?');
     },
     'LaunchRequest': function() {
       this.emit('NewSession');

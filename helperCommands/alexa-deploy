@@ -14,9 +14,15 @@ echo $pwd
 echo $HOME_NAME
 
 if [[ $pwd == $HOME_NAME ]]; then
+	cd src
+
 	echo Zipping…
 
-	zip deployment/vexquery.zip src/index.js src/node_modules src/package.json
+	zip -r vexquery.zip index.js node_modules package.json
+
+	cd ..
+
+	mv src/vexquery.zip deployment/vexquery.zip
 
 	echo Done
 else

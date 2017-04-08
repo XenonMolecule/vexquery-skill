@@ -1,0 +1,20 @@
+RankRequest rank of team {Team}
+RankRequest {Team} rank
+RankRequest {Team}'s rank
+RankRequest team rank {Team}
+RankRequest global rank {Team}
+RankRequest ranking of {Team}
+RankRequest the rank of team {Team}
+RankRequest what is the rank of {Team}
+RankRequest what's {Team}'s rank
+RankRequest what's the rank of {Team}
+RankRequest skills rank for {Team}
+RankRequest get rank for {Team}
+RankRequest get skills rank of {Team}
+RankRequest get global rank of {Team}
+RankRequest get skills rank for {Team}
+RankRequest get global rank for {Team}
+RankRequest how is {Team} ranked globally
+RankRequest how is team {Team} ranked globally
+RankRequest how is {Team} ranked
+RankRequest how is team {Team} ranked
