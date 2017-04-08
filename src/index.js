@@ -29,11 +29,14 @@ var newSessionHandlers = {
     'NewSession': function() {
         this.handler.state = states.STARTMODE;
         this.emit(':ask', 'Ask me and vex statistics related queries.', 'Do you have any vex statistics related questions?');
+    },
+    'LaunchRequest': function() {
+      this.emit('NewSession');
     }
 };
 
 // Before any query has been asked
-var startModeHandlers = Alexa.createStateHandler(states.STARTMODE, {
+var startModeHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
   'NewSession': function() {
     this.handler.state = '';
     this.emit('NewSession');
@@ -56,7 +59,7 @@ var startModeHandlers = Alexa.createStateHandler(states.STARTMODE, {
 });
 
 // Once a query has already been asked
-var queryModeHandlers = Alexa.createStateHandler(states.STARTMODE, {
+var queryModeHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
   'NewSession': function() {
     this.handler.state = '';
     this.emit('NewSession'); // Call initial New Session (stateless version)

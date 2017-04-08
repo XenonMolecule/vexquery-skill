@@ -1,0 +1,27 @@
+#!/bin/bash
+
+NAME=\”/Users/MichaelRyan/Documents/Programming/Github/vexquery-skill/helperCommands\”
+HOME_NAME=\”/Users/MichaelRyan/Documents/Programming/Github/vexquery-skill\”
+pwd=\”$PWD\”
+
+if [[ $pwd == $NAME ]]; then
+	cd ..
+fi
+
+pwd=\”$PWD\”
+
+echo $pwd
+echo $HOME_NAME
+
+if [[ $pwd == $HOME_NAME ]]; then
+	echo Zipping…
+
+	zip deployment/vexquery.zip src/index.js src/node_modules src/package.json
+
+	echo Done
+else
+	echo Not in proper directory to run this command!
+	
+	echo Please navigate to $HOME_NAME
+fi
+
