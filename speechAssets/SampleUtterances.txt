@@ -1,20 +1,20 @@
-RankRequest rank of team {Team}
-RankRequest {Team} rank
-RankRequest {Team}'s rank
-RankRequest team rank {Team}
-RankRequest global rank {Team}
-RankRequest ranking of {Team}
-RankRequest the rank of team {Team}
-RankRequest what is the rank of {Team}
-RankRequest what's {Team}'s rank
-RankRequest what's the rank of {Team}
-RankRequest skills rank for {Team}
-RankRequest get rank for {Team}
-RankRequest get skills rank of {Team}
-RankRequest get global rank of {Team}
-RankRequest get skills rank for {Team}
-RankRequest get global rank for {Team}
-RankRequest how is {Team} ranked globally
-RankRequest how is team {Team} ranked globally
-RankRequest how is {Team} ranked
-RankRequest how is team {Team} ranked
+RankIntent rank of team {Team}
+RankIntent {Team} rank
+RankIntent {Team} global rank
+RankIntent team rank {Team}
+RankIntent global rank {Team}
+RankIntent ranking of {Team}
+RankIntent the rank of team {Team}
+RankIntent what is the rank of {Team}
+RankIntent what's the rank for {Team}
+RankIntent what's the rank of {Team}
+RankIntent skills rank for {Team}
+RankIntent get rank for {Team}
+RankIntent get skills rank of {Team}
+RankIntent get global rank of {Team}
+RankIntent get skills rank for {Team}
+RankIntent get global rank for {Team}
+RankIntent how is {Team} ranked globally
+RankIntent how is team {Team} ranked globally
+RankIntent how is {Team} ranked
+RankIntent how is team {Team} ranked
