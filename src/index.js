@@ -36,13 +36,15 @@ var newSessionHandlers = {
         if(this.event.request.type != "IntentRequest")
           this.emit(':ask', 'Ask me any vex statistics related queries.', 'Do you have any vex statistics related questions?');
         else
-          console.log("Name " + this.event.request.intent.name);
           this.emit(this.event.request.intent.name);
     },
     'LaunchRequest': function() {
       this.emit('NewSession');
     },
     'RankIntent': function() {
+      rankReq(this);
+    },
+    'RankNLIntent': function() {
       rankReq(this);
     },
     'Error': function() {
@@ -57,6 +59,9 @@ var startModeHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
     this.emit('NewSession');
   },
   'RankIntent': function() {
+    rankReq(this);
+  },
+  'RankNLIntent': function() {
     rankReq(this);
   },
   'AMAZON.HelpIntent': function() {
@@ -91,6 +96,9 @@ var queryModeHandlers = Alexa.CreateStateHandler(states.QUERYMODE, {
       'Sorry the developer has been a lazy bum and still forgot to implement specific command help');
   },
   'RankIntent': function() {
+    rankReq(this);
+  },
+  'RankNLIntent': function() {
     rankReq(this);
   },
   'Error': function() {
@@ -141,7 +149,6 @@ function VexReq(url,alexa) {
       }
       Url+=args[i];
     }
-    console.log("Url: " + Url);
     this.getResponse(Url, function(data) {
       callback(data);
     })
@@ -172,8 +179,9 @@ function VexReq(url,alexa) {
 }
 
 // function to be called for every request which does some setting up
-function startReq(alexa) {
+function startReq(alexa,command) {
   alexa.handler.state = states.QUERYMODE;
+  alexa.attributes["lastCommand"] = command;
   //TODO: Add more setup XD
 }
 
@@ -221,19 +229,26 @@ function sayTeam(team) {
 ////////////////////////////////////////////////////////////////////////////////
 
 function rankReq(alexa) {
-  startReq(alexa);
-  var team = getParams(alexa)[0];
-  console.log(team);
-  alexa.attributes["lastCommand"] = commands.RANK;
+  startReq(alexa,commands.RANK);
+  var params = getParams(alexa);
+  var teamNum = params[0];
+  var teamLetter = params[1];
+  teamLetter = (teamLetter == undefined) ? "" : teamLetter;
+  var team = teamNum + teamLetter;
   if(isValidTeam(team)) {
     var req = new VexReq("https://api.vexdb.io/v1/get_skills?type=2&season=Starstruck&season_rank=true&team=" + team, alexa);
     req.getFullResponse((res) => {
-      var rank = res.result[0].season_rank;
-      alexa.handler.state = states.STARTMODE;
-      // Send the data or say nothing could be found
-      alexa.emit(":ask",(res.size != 0) ? (sayTeam(team) + " is rank " + rank +
-        " in the world.  Do you have another query?") : ("Could not find skills data for team " +
-        sayTeam(team) + ".  Do you have another query?"), "Do you have another question?");
+      if(res.size > 0) {
+        var rank = res.result[0].season_rank;
+        alexa.handler.state = states.STARTMODE;
+        // Send the data or say nothing could be found
+        alexa.emit(":ask", sayTeam(team) + " is rank " + rank + " in the world.  " +
+          "Do you have another query?" , "Do you have another question?");
+      } else {
+        alexa.handler.state = states.STARTMODE;
+        alexa.emit(":ask", "Could not find skills data for team " + sayTeam(team) +
+          ".  Do you have another query?", "Do you have another question?");
+      }
     });
   } else {
     alexa.emit(":ask", sayTeam(team) + " is not a valid team.  Please say a valid team.", "Please say a valid team number.");

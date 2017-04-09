@@ -1,20 +1,42 @@
-RankIntent rank of team {Team}
-RankIntent {Team} rank
-RankIntent {Team} global rank
-RankIntent team rank {Team}
-RankIntent global rank {Team}
-RankIntent ranking of {Team}
-RankIntent the rank of team {Team}
-RankIntent what is the rank of {Team}
-RankIntent what's the rank for {Team}
-RankIntent what's the rank of {Team}
-RankIntent skills rank for {Team}
-RankIntent get rank for {Team}
-RankIntent get skills rank of {Team}
-RankIntent get global rank of {Team}
-RankIntent get skills rank for {Team}
-RankIntent get global rank for {Team}
-RankIntent how is {Team} ranked globally
-RankIntent how is team {Team} ranked globally
-RankIntent how is {Team} ranked
-RankIntent how is team {Team} ranked
+RankIntent rank of team {TeamNum} {TeamLetter}
+RankIntent {TeamNum} {TeamLetter} rank
+RankIntent {TeamNum} {TeamLetter} global rank
+RankIntent team rank {TeamNum} {TeamLetter}
+RankIntent global rank {TeamNum} {TeamLetter}
+RankIntent ranking of {TeamNum} {TeamLetter}
+RankIntent the rank of {TeamNum} {TeamLetter}
+RankIntent the rank of team {TeamNum} {TeamLetter}
+RankIntent what is the rank of {TeamNum} {TeamLetter}
+RankIntent what's the rank for {TeamNum} {TeamLetter}
+RankIntent what's the rank of {TeamNum} {TeamLetter}
+RankIntent skills rank for {TeamNum} {TeamLetter}
+RankIntent get rank for {TeamNum} {TeamLetter}
+RankIntent get skills rank of {TeamNum} {TeamLetter}
+RankIntent get global rank of {TeamNum} {TeamLetter}
+RankIntent get skills rank for {TeamNum} {TeamLetter}
+RankIntent get global rank for {TeamNum} {TeamLetter}
+RankIntent how is {TeamNum} {TeamLetter} ranked globally
+RankIntent how is team {TeamNum} {TeamLetter} ranked globally
+RankIntent how is {TeamNum} {TeamLetter} ranked
+RankIntent how is team {TeamNum} {TeamLetter} ranked
+RankNLIntent rank of team {TeamNum}
+RankNLIntent {TeamNum} rank
+RankNLIntent {TeamNum} global rank
+RankNLIntent team rank {TeamNum}
+RankNLIntent global rank {TeamNum}
+RankNLIntent ranking of {TeamNum}
+RankNLIntent the rank of {TeamNum}
+RankNLIntent the rank of team {TeamNum}
+RankNLIntent what is the rank of {TeamNum}
+RankNLIntent what's the rank for {TeamNum}
+RankNLIntent what's the rank of {TeamNum}
+RankNLIntent skills rank for {TeamNum}
+RankNLIntent get rank for {TeamNum}
+RankNLIntent get skills rank of {TeamNum}
+RankNLIntent get global rank of {TeamNum}
+RankNLIntent get skills rank for {TeamNum}
+RankNLIntent get global rank for {TeamNum}
+RankNLIntent how is {TeamNum} ranked globally
+RankNLIntent how is team {TeamNum} ranked globally
+RankNLIntent how is {TeamNum} ranked
+RankNLIntent how is team {TeamNum} ranked

@@ -8,6 +8,28 @@
     },
     {
       "intent": "AMAZON.HelpIntent"
+    },
+    {
+      "slots": [
+        {
+          "name": "TeamNum",
+          "type": "AMAZON.NUMBER"
+        },
+        {
+          "name": "TeamLetter",
+          "type": "LETTER"
+        }
+      ],
+      "intent": "RankIntent"
+    },
+    {
+      "intent": "RankNLIntent",
+      "slots": [
+        {
+          "name": "TeamNum",
+          "type": "AMAZON.NUMBER"
+        }
+      ]
     }
   ]
 }
