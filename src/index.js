@@ -4,13 +4,24 @@ var Alexa = require('alexa-sdk');
 var https = require('https');
 var appId = ''; //TODO: ADD THE APP ID
 
+const SEASON = {'value':'Starstruck'}; // This format simplifies things later
+
 var states = {
     STARTMODE: '_STARTMODE',  // Prompt the user to start or restart the questions
     QUERYMODE: '_QUERYMODE'  // Clarify or answer the question
 };
 
 var commands = {
-  RANK: '_RANK'
+  RANK: '_RANK',
+  AWARDS: '_AWARDS',
+  AWARDS_LIST: '_AWARDS_LIST'
+}
+
+var breaks = {
+  NONE: '<break strength="none"/>',
+  MEDIUM: '<break strength="medium"/>',
+  STRONG: '<break strength="strong"/>',
+  XSTRONG: '<break strength="x-strong"/>'
 }
 
 // Initialize the alexa
@@ -47,6 +58,18 @@ var newSessionHandlers = {
     'RankNLIntent': function() {
       rankReq(this);
     },
+    'AwardsIntent': function() {
+      awardReq(this);
+    },
+    'AwardsListIntent': function() {
+      awardsListReq(this);
+    },
+    'AwardsNLIntent': function() {
+      this.emit('AwardsIntent');
+    },
+    'AwardsListNLIntent': function() {
+      this.emit('AwardsListIntent');
+    },
     'Error': function() {
       this.emit(':tell', 'Sorry, a fatal error occured when attempting to fufill this request, please try again later');
     }
@@ -64,15 +87,40 @@ var startModeHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
   'RankNLIntent': function() {
     rankReq(this);
   },
+  'AwardsIntent': function() {
+    awardReq(this);
+  },
+  'AwardsListIntent': function() {
+    awardsListReq(this);
+  },
+  'AwardsNLIntent': function() {
+    this.emit('AwardsIntent');
+  },
+  'AwardsListNLIntent': function() {
+    this.emit('AwardsListIntent');
+  },
   'AMAZON.HelpIntent': function() {
     this.emit(':ask', 'Implement specific command list later',
       'Sorry the developer has been a lazy bum and still forgot to implement a command list');
   },
   'AMAZON.YesIntent': function() {
-    this.emit(':ask', 'What is your vex statistics related question?', 'What is your question?');
+    switch(this.attributes["lastCommand"]) {
+      case commands.AWARDS :
+        this.emit('AwardsListIntent');
+        break;
+      default:
+        this.emit(':ask', 'What is your vex statistics related question?', 'What is your question?');
+    }
   },
   'AMAZON.NoIntent': function() {
-    this.emit(':tell', "Okay, have a good day");
+    switch(this.attributes["lastCommand"]) {
+      case commands.AWARDS :
+        this.attributes["lastCommand"] = "";
+        this.emit(':ask', "Okay, do you have any other questions?", "Do you have another question?");
+        break;
+      default:
+        this.emit(':tell', "Okay, have a good day");
+    }
   },
   'Error': function() {
     this.handler.state = '';
@@ -100,6 +148,18 @@ var queryModeHandlers = Alexa.CreateStateHandler(states.QUERYMODE, {
   },
   'RankNLIntent': function() {
     rankReq(this);
+  },
+  'AwardsIntent': function() {
+    awardReq(this);
+  },
+  'AwardsListIntent': function() {
+    awardsListReq(this);
+  },
+  'AwardsNLIntent': function() {
+    this.emit('AwardsIntent');
+  },
+  'AwardsListNLIntent': function() {
+    this.emit('AwardsListIntent');
   },
   'Error': function() {
     this.handler.state = '';
@@ -222,6 +282,28 @@ function sayTeam(team) {
   return output;
 }
 
+// Gets the team from the alexa request slots
+function getTeam(alexa) {
+  var slots = alexa.event.request.intent.slots;
+  var teamNum = slots.TeamNum.value;
+  var teamLetter = slots.TeamLetter;
+  teamLetter = (teamLetter == undefined) ? {"value" : ""} : teamLetter;
+  return teamNum + teamLetter.value;
+}
+
+// Safe version of getTeam, won't crash if no team number
+function getTeamSafe(alexa) {
+  var slots = alexa.event.request.intent.slots || {};
+  var teamNum =  slots.TeamNum || {"value" : ""};
+  var teamLetter = slots.TeamLetter || {"value" : ""};
+  return teamNum.value + teamLetter.value;
+}
+
+// Remove (VRC/VEXU) from award title
+function removeExtraName(award) {
+  return award.replace(/\(VRC\/VEXU\)/gi, "").trim();
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 //                          Intent Handling Methods
@@ -235,22 +317,80 @@ function rankReq(alexa) {
   var teamLetter = params[1];
   teamLetter = (teamLetter == undefined) ? "" : teamLetter;
   var team = teamNum + teamLetter;
+  alexa.attributes["lastTeam"] = team;
   if(isValidTeam(team)) {
     var req = new VexReq("https://api.vexdb.io/v1/get_skills?type=2&season=Starstruck&season_rank=true&team=" + team, alexa);
     req.getFullResponse((res) => {
+      alexa.handler.state = states.STARTMODE;
       if(res.size > 0) {
         var rank = res.result[0].season_rank;
-        alexa.handler.state = states.STARTMODE;
-        // Send the data or say nothing could be found
         alexa.emit(":ask", sayTeam(team) + " is rank " + rank + " in the world.  " +
           "Do you have another query?" , "Do you have another question?");
       } else {
-        alexa.handler.state = states.STARTMODE;
         alexa.emit(":ask", "Could not find skills data for team " + sayTeam(team) +
           ".  Do you have another query?", "Do you have another question?");
       }
     });
   } else {
     alexa.emit(":ask", sayTeam(team) + " is not a valid team.  Please say a valid team.", "Please say a valid team number.");
+  }
+}
+
+function awardReq(alexa) {
+  startReq(alexa, commands.AWARDS);
+  var team = getTeam(alexa);
+  var season = alexa.event.request.intent.slots.Season || SEASON;
+  season = season.value;
+  alexa.attributes["lastTeam"] = team;
+  if(isValidTeam(team)) {
+    var req = new VexReq("https://api.vexdb.io/v1/get_awards?season=" + season + "&nodata=true&team=" + team, alexa);
+    req.getFullResponse((res) => {
+      alexa.handler.state = states.STARTMODE;
+      if(res.size > 0) {
+        var plural = (res.size == 1) ? "" : "s";
+        alexa.emit(":ask", sayTeam(team) + " has won " + res.size + " award" + plural +
+          " in the " + season + " season.  Would you like me to list them?", "Would you like " +
+          "me to list the " + res.size + " award" + plural + " of " + sayTeam(team) + "?");
+      } else {
+        alexa.attributes["lastCommand"] = "";
+        alexa.emit(":ask", "Could not find awards data for team " + sayTeam(team) +
+          ".  Do you have another query?", "Do you have another question?");
+      }
+    });
+  } else {
+    alexa.emit(":ask", sayTeam(team) + " is not a valid team.  Please say a valid team.", "Please say a valid team number.");
+  }
+}
+
+function awardsListReq(alexa) {
+  startReq(alexa, commands.AWARDS_LIST);
+  var team = getTeamSafe(alexa);
+  team = (team!="") ? team : alexa.attributes["lastTeam"];
+  var slots = alexa.event.request.intent.slots || {};
+  var season = slots.Season || SEASON;
+  season = season.value;
+  alexa.attributes["lastTeam"] = team;
+  if(isValidTeam(team)) {
+    var req = new VexReq("https://api.vexdb.io/v1/get_awards?season=" + season + "&team=" + team, alexa);
+    req.getFullResponse((res) => {
+      alexa.handler.state = states.STARTMODE;
+      if(res.size > 0) {
+        var plural = (res.size == 1) ? "" : "s";
+        var list = "";
+        for (var i = 0; i < res.result.length; i ++) {
+          if(i == res.size-1 && res.size!= 1) {
+            list += "and ";
+          }
+          list += removeExtraName(res.result[i].name) + ((i!=res.size-1) ? " " + breaks.MEDIUM + " ": "");
+        }
+        alexa.emit(":ask", sayTeam(team) + " won " + list + " during the " + season +
+          " season, making " + res.size + " award" +  plural + " in total.  Do you have another query?",
+          "Do you have another question?");
+      } else {
+        alexa.attributes["lastCommand"] = "";
+        alexa.emit(":ask", "Could not find awards data for team " + sayTeam(team) +
+          ".  Do you have another query?", "Do you have another question?");
+      }
+    });
   }
 }

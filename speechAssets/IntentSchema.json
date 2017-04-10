@@ -30,6 +30,50 @@
           "type": "AMAZON.NUMBER"
         }
       ]
+    },
+    {
+      "intent": "AwardsIntent",
+      "slots": [
+        {
+          "name": "TeamNum",
+          "type": "AMAZON.NUMBER"
+        },
+        {
+          "name": "TeamLetter",
+          "type": "LETTER"
+        }
+      ]
+    },
+    {
+      "intent": "AwardsNLIntent",
+      "slots": [
+        {
+          "name": "TeamNum",
+          "type": "AMAZON.NUMBER"
+        }
+      ]
+    },
+    {
+      "intent": "AwardsListIntent",
+      "slots": [
+        {
+          "name": "TeamNum",
+          "type": "AMAZON.NUMBER"
+        },
+        {
+          "name": "TeamLetter",
+          "type": "LETTER"
+        }
+      ]
+    },
+    {
+      "intent": "AwardsListNLIntent",
+      "slots": [
+        {
+          "name": "TeamNum",
+          "type": "AMAZON.NUMBER"
+        }
+      ]
     }
   ]
 }

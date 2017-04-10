@@ -40,3 +40,43 @@ RankNLIntent how is {TeamNum} ranked globally
 RankNLIntent how is team {TeamNum} ranked globally
 RankNLIntent how is {TeamNum} ranked
 RankNLIntent how is team {TeamNum} ranked
+AwardsIntent get awards for {TeamNum} {TeamLetter}
+AwardsIntent {TeamNum} {TeamLetter} awards
+AwardsIntent awards {TeamNum} {TeamLetter}
+AwardsIntent the awards {TeamNum} {TeamLetter}
+AwardsIntent what are the awards for {TeamNum} {TeamLetter}
+AwardsIntent get awards {TeamNum} {TeamLetter}
+AwardsIntent how many awards does {TeamNum} {TeamLetter} have
+AwardsIntent what are the awards for team {TeamNum} {TeamLetter}
+AwardsIntent how many trophies does {TeamNum} {TeamLetter} have
+AwardsIntent the awards for {TeamNum} {TeamLetter}
+AwardsIntent the awards for team {TeamNum} {TeamLetter}
+AwardsNLIntent get awards for {TeamNum}
+AwardsNLIntent {TeamNum} awards
+AwardsNLIntent awards {TeamNum}
+AwardsNLIntent the awards {TeamNum}
+AwardsNLIntent what are the awards for {TeamNum}
+AwardsNLIntent get awards {TeamNum}
+AwardsNLIntent how many awards does {TeamNum} have
+AwardsNLIntent what are the awards for team {TeamNum}
+AwardsNLIntent how many trophies does {TeamNum} have
+AwardsNLIntent the awards for {TeamNum}
+AwardsNLIntent the awards for team {TeamNum}
+AwardsListIntent list awards for {TeamNum} {TeamLetter}
+AwardsListIntent what awards does {TeamNum} {TeamLetter} have
+AwardsListIntent which awards does {TeamNum} {TeamLetter} have
+AwardsListIntent what kinds of awards does {TeamNum} {TeamLetter} have
+AwardsListIntent what trophies does {TeamNum} {TeamLetter} have
+AwardsListIntent list awards {TeamNum} {TeamLetter}
+AwardsListIntent {TeamNum} {TeamLetter} awards list
+AwardsListIntent {TeamNum} {TeamLetter} trophies list
+AwardsListIntent {TeamNum} {TeamLetter} trophy list
+AwardsListNLIntent list awards for {TeamNum}
+AwardsListNLIntent what awards does {TeamNum} have
+AwardsListNLIntent which awards does {TeamNum} have
+AwardsListNLIntent what kinds of awards does {TeamNum} have
+AwardsListNLIntent what trophies does {TeamNum} have
+AwardsListNLIntent list awards {TeamNum}
+AwardsListNLIntent {TeamNum} awards list
+AwardsListNLIntent {TeamNum} trophies list
+AwardsListNLIntent {TeamNum} trophy list
